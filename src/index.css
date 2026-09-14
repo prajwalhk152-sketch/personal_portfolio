@@ -2,3 +2,24 @@
 @tailwind base;@tailwind components;@tailwind utilities;
 @layer base{html{scroll-behavior:smooth}body{@apply bg-ink font-sans text-zinc-100 antialiased}::selection{@apply bg-signal text-ink}:focus-visible{@apply outline outline-2 outline-offset-4 outline-signal}}
 @layer components{.shell{@apply mx-auto w-[min(100%-2rem,1200px)]}.section{@apply border-t border-line py-20 md:py-28}.eyebrow{@apply font-mono text-[.68rem] uppercase tracking-[.12em] text-signal}.section-title{@apply mt-3 text-5xl font-extrabold leading-none tracking-[-.06em] sm:text-6xl md:text-7xl}.button{@apply inline-flex items-center justify-center gap-3 rounded-sm border px-5 py-3 text-xs font-bold transition duration-200 hover:-translate-y-0.5}.solid{@apply border-signal bg-signal text-ink hover:bg-[#b1e99a]}.ghost{@apply border-zinc-600 text-zinc-100 hover:border-zinc-300}.tag{@apply rounded-sm border border-zinc-800 bg-card px-2.5 py-1 font-mono text-[.62rem] uppercase tracking-wide text-signal}}
+
+/* Keep the editorial hero spacious while bringing Projects into view sooner. */
+#top { min-height: 82vh; }
+
+/* Keep project screenshots visible and give each preview a consistent frame. */
+.group > div:last-child {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	background: #111;
+}
+.group img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border: 1px solid #2a2a2a;
+	box-shadow: 0 16px 35px rgb(0 0 0 / 25%);
+}
+.group img + div { display: none; }
