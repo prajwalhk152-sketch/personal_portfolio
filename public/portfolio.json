@@ -1,0 +1,18 @@
+{
+  "profile": {
+    "name": "Prajwal H K",
+    "email": "prajwalhk152@gmail.com",
+    "phone": "+91 6362481047",
+    "github": "https://github.com/prajwalhk152-sketch",
+    "linkedin": "https://linkedin.com/in/prajwal-h-k-4926a0416",
+    "resume": "/resume/Prajwal_H_K_Resume.pdf",
+    "headline": "Building practical AI/ML & web applications.",
+    "intro": "BCA student focused on AI/ML and Web Development, building practical applications with Python, machine learning, and modern web technologies."
+  },
+  "projects": [
+    {"category":"Machine Learning","title":"AI Startup Success Prediction System","description":"A machine-learning application that predicts startup success based on business and market-related factors.","technologies":"Python, Machine Learning, Flask, SQLite","image":"/images/1img.png","github":"https://github.com/prajwalhk152-sketch/AI-startup_success_pridiction_system","demo":""},
+    {"category":"Machine Learning","title":"Student Performance Prediction System","description":"A full-stack machine-learning application that predicts students' academic performance based on study habits, attendance, previous scores, and other relevant factors.","technologies":"Python, Pandas, NumPy, Machine Learning","image":"/images/3img.png","github":"https://github.com/prajwalhk152-sketch/Student_perfomance_analysis","demo":""},
+    {"category":"Machine Learning","title":"Restaurant Recommendation System","description":"A recommendation system developed to recommend restaurants based on user preferences and restaurant attributes.","technologies":"Python, Pandas, Machine Learning","image":"/images/4img.png","github":"https://github.com/prajwalhk152-sketch/Restaurant_Recommendation_System","demo":""},
+    {"category":"Internship Project","title":"AI Doctor Prescription Reader","description":"An AI-based application that extracts and identifies medicine information from prescription images using OCR and AI-based processing.","technologies":"Python, OCR, Tesseract, AI","image":"/images/2img.png","github":"https://github.com/prajwalhk152-sketch/AI-Prescription-Reader","demo":"https://ai-prescription-reader-88mt.onrender.com/"}
+  ]
+}

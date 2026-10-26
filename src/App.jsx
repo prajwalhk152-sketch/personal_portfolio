@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import Admin from "./Admin.jsx";
 import {
   Menu,
   X,
@@ -14,51 +15,10 @@ import {
 const Github = GitFork;
 const Linkedin = ArrowUpRight;
 
-const p = {
-  email: "prajwalhk152@gmail.com",
-  phone: "+91 6362481047",
-  github: "https://github.com/prajwalhk152-sketch",
-  linkedin: "https://linkedin.com/in/prajwal-h-k-4926a0416",
-  resume: "/resume/Prajwal_H_K_Resume.pdf",
+const fallbackContent = {
+  profile: { name: "Prajwal H K", email: "prajwalhk152@gmail.com", phone: "+91 6362481047", github: "https://github.com/prajwalhk152-sketch", linkedin: "https://linkedin.com/in/prajwal-h-k-4926a0416", resume: "/resume/Prajwal_H_K_Resume.pdf", headline: "Building practical AI/ML & web applications.", intro: "BCA student focused on AI/ML and Web Development, building practical applications with Python, machine learning, and modern web technologies." },
+  projects: [],
 };
-const projects = [
-  [
-    "01",
-    "Machine Learning",
-    "AI Startup Success Prediction System",
-    "A machine-learning application that predicts startup success based on business and market-related factors.",
-    ["Python", "Machine Learning", "Flask", "SQLite"],
-    "/images/1img.png",
-    "https://github.com/prajwalhk152-sketch/AI-startup_success_pridiction_system",
-  ],
-  [
-    "02",
-    "Machine Learning",
-    "Student Performance Prediction System",
-    "A full-stack machine-learning application that predicts students' academic performance based on study habits, attendance, previous scores, and other relevant factors.",
-    ["Python", "Pandas", "NumPy", "Machine Learning"],
-    "/images/3img.png",
-    "https://github.com/prajwalhk152-sketch/Student_perfomance_analysis",
-  ],
-  [
-    "03",
-    "Machine Learning",
-    "Restaurant Recommendation System",
-    "A recommendation system developed to recommend restaurants based on user preferences and restaurant attributes.",
-    ["Python", "Pandas", "Machine Learning"],
-    "/images/4img.png",
-    "https://github.com/prajwalhk152-sketch/Restaurant_Recommendation_System",
-  ],
-  [
-    "04",
-    "Internship Project",
-    "AI Doctor Prescription Reader",
-    "An AI-based application that extracts and identifies medicine information from prescription images using OCR and AI-based processing.",
-    ["Python", "OCR", "Tesseract", "AI"],
-    "/images/2img.png",
-    "https://github.com/prajwalhk152-sketch/AI-Prescription-Reader",
-  ],
-];
 const reveal = {
   initial: { opacity: 0, y: 18 },
   whileInView: { opacity: 1, y: 0 },
@@ -85,7 +45,12 @@ function Heading({ n, title, note }) {
 }
 function App() {
   const [open, setOpen] = useState(false);
+  const [content, setContent] = useState(fallbackContent);
   const menuRef = useRef(null);
+  const p = content.profile;
+  const projects = content.projects;
+  const isAdmin = window.location.pathname === "/admin" || window.location.pathname === "/admin/";
+  useEffect(() => { fetch("/portfolio.json").then((r) => r.ok ? r.json() : null).then((data) => { if (data?.profile && Array.isArray(data.projects)) setContent(data); }).catch(() => {}); }, []);
   const links = [
     "Projects",
     "Skills",
@@ -108,6 +73,7 @@ function App() {
       document.removeEventListener("mousedown", handleMenuInteraction);
     };
   }, []);
+  if (isAdmin) return <Admin />;
   return (
     <>
       <header ref={menuRef} className="fixed inset-x-0 top-0 z-50 border-b border-line/40 bg-ink/80 backdrop-blur-md">
@@ -116,7 +82,7 @@ function App() {
             href="#top"
             className="flex items-center gap-3 text-xs font-extrabold tracking-[.08em]"
           >
-            PRAJWAL H K{" "}
+            {p.name.toUpperCase()}{" "}
             <span className="hidden rounded-sm bg-signal px-2 py-1 font-mono text-[.55rem] font-medium text-ink sm:block">
               AI/ML + WEB DEV
             </span>
@@ -177,16 +143,10 @@ function App() {
               Available for opportunities
             </p>
             <h1 className="max-w-5xl text-[clamp(3.45rem,9.4vw,8.8rem)] font-extrabold leading-[.88] tracking-[-.085em]">
-              Building practical
-              <br />
-              AI/ML <span className="text-signal">&amp;</span> web
-              <br />
-              applications.
+              {p.headline}
             </h1>
             <p className="mt-9 max-w-xl text-base leading-relaxed text-zinc-400 md:text-lg">
-              BCA student focused on AI/ML and Web Development, building
-              practical applications with Python, machine learning, and modern
-              web technologies.
+              {p.intro}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href="#projects" className="button solid">
@@ -238,7 +198,11 @@ function App() {
         <section id="projects" className="section shell">
           <Heading n="01" title="Projects." note="Selected works" />
           <div className="space-y-5">
-            {projects.map(([num, cat, title, desc, tech, image, github]) => (
+            {projects.map((project, index) => {
+              const { category: cat, title, description: desc, technologies, image, github, demo } = project;
+              const tech = (technologies || "").split(",").map((item) => item.trim()).filter(Boolean);
+              const num = String(index + 1).padStart(2, "0");
+              return (
               <motion.article
                 {...reveal}
                 key={num}
@@ -281,9 +245,9 @@ function App() {
                           GitHub — Coming Soon
                         </span>
                       )}
-                      <span className="text-xs font-bold text-zinc-500">
-                        Live Demo — Coming Soon
-                      </span>
+                      <div className="text-xs font-bold text-zinc-500">
+                        {demo ? <a href={demo} target="_blank" rel="noreferrer" className="hover:text-signal">Live Demo <ArrowUpRight size={14}/></a> : "Live Demo — Coming Soon"}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -307,10 +271,10 @@ function App() {
                   </div>
                 </div>
               </motion.article>
-            ))}
+            );})}
           </div>
         </section>
-        <div className="shell -mt-16 flex flex-wrap gap-3 pb-16 md:-mt-20 md:pb-20">
+        <div className="hidden">
           <a
             className="button ghost"
             href="https://ai-startup-success-pridiction-system-1.onrender.com/"
@@ -541,7 +505,7 @@ function App() {
                   </a>
                   <a
                     className="flex items-center gap-3 hover:text-signal"
-                    href="tel:+916362481047"
+                    href={`tel:${p.phone.replace(/[^+\d]/g, "")}`}
                   >
                     <Phone size={16} className="text-signal" />
                     {p.phone}
@@ -591,7 +555,7 @@ function App() {
         <div className="shell flex flex-col gap-5 text-xs text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-bold tracking-[.08em] text-zinc-100">
-              PRAJWAL H K
+              {p.name.toUpperCase()}
             </p>
             <p className="mt-1">AI/ML Enthusiast · Web Developer</p>
           </div>
@@ -599,6 +563,7 @@ function App() {
             <a href={p.github}>GitHub</a>
             <a href={p.linkedin}>LinkedIn</a>
             <a href={"mailto:" + p.email}>Email</a>
+            <a href="/admin">Edit portfolio</a>
           </div>
           <p>
             © 2026 Prajwal H K<br />
